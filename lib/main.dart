@@ -80,14 +80,14 @@ class MyApp extends StatelessWidget {
 
     Widget textSection = const Padding(
       padding: EdgeInsets.all(32),
-      child: Text(
+      child: SelectableText(
         'Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese '
         'Alps. Situated 1,578 meters above sea level, it is one of the '
         'larger Alpine Lakes. A gondola ride from Kandersteg, followed by a '
         'half-hour walk through pastures and pine forest, leads you to the '
         'lake, which warms to 20 degrees Celsius in the summer. Activities '
         'enjoyed here include rowing, and riding the summer toboggan run.',
-        softWrap: true,
+        // softWrap: true,
       ),
     );
 
@@ -95,19 +95,20 @@ class MyApp extends StatelessWidget {
       title: 'Flutter layout demo',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Flutter layout demo'),
+          title: const SelectableText('Flutter layout demo'),
         ),
         // body: const Center(
         //   child: Text('Hello World'),
         // ),
         body: Column(
           children: [
-            Image.asset(
-              'images/lake.jpg',
-              width: 600,
-              height: 240,
-              fit: BoxFit.cover,
-            ),
+            Image.network('https://fordelivery.blob.core.windows.net/democon2/a.jpg'),
+            // Image.asset(
+            //   'images/lake.jpg',
+            //   width: 600,
+            //   height: 240,
+            //   fit: BoxFit.cover,
+            // ),
             titleSection,
             buttonSection,
             textSection],
@@ -124,7 +125,7 @@ class MyApp extends StatelessWidget {
         Icon(icon, color: color),
         Container(
           margin: const EdgeInsets.only(top: 8),
-          child: Text(
+          child: SelectableText(
             label,
             style: TextStyle(
               fontSize: 12,
