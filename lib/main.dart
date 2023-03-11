@@ -102,7 +102,11 @@ class MyApp extends StatelessWidget {
         // ),
         body: Column(
           children: [
-            Image.network('https://fordelivery.blob.core.windows.net/democon2/a.jpg'),
+            Image.network('https://fordelivery.blob.core.windows.net/democon2/a.jpg',
+              width: 600,
+              height: 200,
+              fit: BoxFit.cover,            
+            ),
             // Image.asset(
             //   'images/lake.jpg',
             //   width: 600,
