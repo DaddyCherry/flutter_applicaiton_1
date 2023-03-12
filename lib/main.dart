@@ -45,20 +45,19 @@ const text = 'This is text';
 
 void func() {
   debugPrint('pushed!!');
-  _handleHttp();
+  callApi();
 }
 
-Future<void> _handleHttp() async {
-  var url =
-      Uri.https('www.googleapis.com', '/books/v1/volumes', {'q': 'Flutter'});
+Future<http.Response> callApi() async {
+  final url = 'https://notify-api.line.me/api/notify';
+  final token = 'H56icg4qatjE7jETqKgZFIxt6hL0k6Kv0D6bZsPJCg0';
 
-  var response = await http.get(url);
-  if (response.statusCode == 200) {
-    var jsonResponse =
-        convert.jsonDecode(response.body) as Map<String, dynamic>;
-    var itemCount = jsonResponse['totalItems'];
-    debugPrint('Number of books about http: $itemCount.');
-  } else {
-    debugPrint('Request failed with status: ${response.statusCode}.');
-  }
+  final response = await http.post(
+    Uri.parse(url),
+    headers: {
+      'Authorization': 'Bearer $token',
+    },
+  );
+
+  return response;
 }
