@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert' as convert;
 
 void main() => runApp(const MyApp());
 
@@ -49,12 +48,13 @@ void func() {
 }
 
 Future<http.Response> callApi() async {
-  final url = 'https://notify-api.line.me/api/notify';
-  final token = 'H56icg4qatjE7jETqKgZFIxt6hL0k6Kv0D6bZsPJCg0';
+  const url = 'https://notify-api.line.me/api/notify';
+  const token = 'H56icg4qatjE7jETqKgZFIxt6hL0k6Kv0D6bZsPJCg0';
 
   final response = await http.post(
-    Uri.parse(url),
+    Uri.https('notify-api.line.me', '/api/notify', {'message': 'TEST!'}),
     headers: {
+      'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
     },
   );
