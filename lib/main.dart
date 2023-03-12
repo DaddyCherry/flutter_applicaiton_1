@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert' as convert;
 
 void main() => runApp(const MyApp());
 
@@ -7,12 +9,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: const MainPage(),
-      routes: <String, WidgetBuilder>{
-        '/main': (BuildContext context) => const MainPage(),
-        '/subpage': (BuildContext context) => const SubPage()
-      },
+    return const MaterialApp(
+      home: MainPage(),
     );
   }
 }
@@ -23,50 +21,44 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Navigator'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(32.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              const Text('Main'),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pushNamed("/subpage"),
-                child: const Text('Subページへ'),
-              )
-            ],
-          ),
+        appBar: AppBar(
+          title: const Text('Navigator'),
         ),
-      ),
-    );
+        body: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => func(),
+              child: const Text('シンプルボタン'),
+            ),
+            textSection
+          ],
+        ));
   }
 }
 
-class SubPage extends StatelessWidget {
-  const SubPage({super.key});
+Widget textSection = const Padding(
+  padding: EdgeInsets.all(32),
+  child: SelectableText(text),
+);
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Navigator'),
-      ),
-      body: Container(
-        padding: const EdgeInsets.all(32.0),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              const Text('Sub'),
-              ElevatedButton(
-                onPressed: () => Navigator.of(context).pop(),
-                child: const Text('戻る'),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
+const text = 'This is text';
+
+void func() {
+  debugPrint('pushed!!');
+  _handleHttp();
+}
+
+Future<void> _handleHttp() async {
+  var url =
+      Uri.https('www.googleapis.com', '/books/v1/volumes', {'q': 'Flutter'});
+
+  var response = await http.get(url);
+  if (response.statusCode == 200) {
+    var jsonResponse =
+        convert.jsonDecode(response.body) as Map<String, dynamic>;
+    var itemCount = jsonResponse['totalItems'];
+    debugPrint('Number of books about http: $itemCount.');
+  } else {
+    debugPrint('Request failed with status: ${response.statusCode}.');
   }
 }
